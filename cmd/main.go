@@ -1,7 +1,12 @@
 package main
 
-import "fmt"
+import (
+	"github.com/romoguill/farming-backend/internal/server"
+)
 
 func main() {
-	fmt.Println("TODO")
+	server := server.NewServer()
+
+	address := "localhost:3000"
+	server.Start(address)
 }
