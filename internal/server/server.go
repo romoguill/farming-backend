@@ -2,7 +2,7 @@ package server
 
 import (
 	"github.com/gin-gonic/gin"
-	handler "github.com/romoguill/farming-backend/internal/http/handler/healthcheck"
+	"github.com/romoguill/farming-backend/internal/handler"
 )
 
 type Server struct {
@@ -13,7 +13,7 @@ func NewServer() *Server {
 	router := gin.Default()
 	server := &Server{router: router}
 
-	router.GET("/ping", handler.HealthCheck)
+	router.GET("/health", handler.HealthCheck)
 
 	return server
 }
