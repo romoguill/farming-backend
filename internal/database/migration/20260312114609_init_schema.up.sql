@@ -1,4 +1,4 @@
-CREATE TABLE user (
+CREATE TABLE "user" (
   "id" bigserial PRIMARY KEY,
   "name" varchar(40) NOT NULL,
   "email" varchar(255) NOT NULL UNIQUE,
@@ -9,8 +9,8 @@ CREATE TABLE workspace (
   "id" bigserial PRIMARY KEY,
   "name" varchar(255) NOT NULL,
   "description" text,
-  "owner_id" bigserial PRIMARY KEY NOT NULL,
-  CONSTRAINT fk_user FOREIGN key(owner_id) REFERENCES user(id)
+  "owner_id" bigint NOT NULL,
+  CONSTRAINT fk_user FOREIGN KEY (owner_id) REFERENCES "user"(id)
 );
 
 CREATE EXTENSION postgis;
@@ -20,6 +20,6 @@ CREATE TABLE farm_plot (
   "tag" varchar(7) NOT NULL,
   "coordinates" geometry(Polygon, 4326) NOT NULL,
   "area" numeric(2) NOT NULL,
-  "workspace_id" bigserial NOT NULL,
-  CONSTRAINT fk_workspace FOREIGN key(workspace_id) REFERENCES workspace(id)
+  "workspace_id" bigint NOT NULL,
+  CONSTRAINT fk_workspace FOREIGN KEY (workspace_id) REFERENCES workspace(id)
 );
