@@ -1,4 +1,4 @@
-package models
+package model
 
 type FarmPlot struct {
 	ID          int64

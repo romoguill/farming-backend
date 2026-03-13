@@ -2,18 +2,22 @@ package server
 
 import (
 	"github.com/gin-gonic/gin"
-	"github.com/romoguill/farming-backend/internal/handler"
+	"github.com/romoguill/farming-backend/internal/service"
 )
 
-type Server struct {
-	router *gin.Engine
+type Handler interface {
+	RegisterRoutes(router *gin.Engine)
 }
 
-func NewServer() *Server {
-	router := gin.Default()
-	server := &Server{router: router}
+type Server struct {
+	router  *gin.Engine
+	handler Handler
+	service *service.Service
+}
 
-	router.GET("/health", handler.HealthCheck)
+func NewServer(handler Handler, service service.Service) *Server {
+	router := gin.Default()
+	h := handler.NewHandler(router)
 
 	return server
 }
