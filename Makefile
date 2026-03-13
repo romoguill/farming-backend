@@ -1,8 +1,8 @@
 dev:
-	air
+	DB_URL=postgresql://root:password@localhost:5432/farming-db?sslmode=disable air
 
 start:
-	go run cmd/main.go
+	DB_URL=postgresql://root:password@localhost:5432/farming-db?sslmode=disable go run cmd/main.go
 
 db:
 	docker compose up -d

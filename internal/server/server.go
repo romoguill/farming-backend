@@ -2,24 +2,19 @@ package server
 
 import (
 	"github.com/gin-gonic/gin"
-	"github.com/romoguill/farming-backend/internal/service"
 )
 
 type Handler interface {
-	RegisterRoutes(router *gin.Engine)
+	UserHandler(router *gin.Engine)
 }
 
 type Server struct {
-	router  *gin.Engine
-	handler Handler
-	service *service.Service
+	router *gin.Engine
 }
 
-func NewServer(handler Handler, service service.Service) *Server {
-	router := gin.Default()
-	h := handler.NewHandler(router)
+func NewServer(router *gin.Engine) *Server {
 
-	return server
+	return &Server{router: router}
 }
 
 func (s *Server) Start(address string) error {

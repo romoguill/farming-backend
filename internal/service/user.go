@@ -7,13 +7,13 @@ type UserRepository interface {
 }
 
 type UserService struct {
-	repository UserRepository
+	userRepository UserRepository
 }
 
-func NewUserService(repository UserRepository) *UserService {
-	return &UserService{repository: repository}
+func NewUserService(userRepository UserRepository) *UserService {
+	return &UserService{userRepository: userRepository}
 }
 
 func (s *UserService) GetUsers() ([]model.User, error) {
-	return s.repository.GetUsers()
+	return s.userRepository.GetUsers()
 }

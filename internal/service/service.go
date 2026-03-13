@@ -5,9 +5,17 @@ type Repository interface {
 }
 
 type Service struct {
-	repository Repository
+	repository  Repository
+	userService *UserService
 }
 
 func NewService(repository Repository) *Service {
-	return &Service{repository: repository}
+	return &Service{
+		repository:  repository,
+		userService: NewUserService(repository),
+	}
+}
+
+func (s *Service) UserService() *UserService {
+	return s.userService
 }

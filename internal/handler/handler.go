@@ -1,15 +1,22 @@
 package handler
 
-import "github.com/gin-gonic/gin"
+import (
+	"github.com/gin-gonic/gin"
+)
+
+type Service struct {
+	UserService UserService
+}
 
 type Handler struct {
-	router *gin.Engine
+	userHandler *UserHandler
 }
 
-func (h *Handler) RegisterRoutes(router *gin.Engine) {
-	router.GET("/health", HealthCheck)
-}
+func NewHandler(router *gin.Engine, svc Service) *Handler {
+	userHandler := NewUserHandler(svc.UserService)
 
-func NewHandler(router *gin.Engine) *Handler {
-	return &Handler{router: router}
+	// Register routes
+	router.GET("/users", userHandler.GetUsers)
+
+	return &Handler{userHandler: userHandler}
 }
