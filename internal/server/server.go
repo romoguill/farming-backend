@@ -4,19 +4,19 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-type Handler interface {
-	UserHandler(router *gin.Engine)
+type Handlers interface {
+	GetUsers(*gin.Context)
 }
 
-type Server struct {
-	router *gin.Engine
+type server struct {
+	handlers Handlers
+	router   *gin.Engine
 }
 
-func NewServer(router *gin.Engine) *Server {
-
-	return &Server{router: router}
+func NewServer(handlers Handlers) *server {
+	return &server{handlers: handlers}
 }
 
-func (s *Server) Start(address string) error {
+func (s *server) Start(address string) error {
 	return s.router.Run(address)
 }

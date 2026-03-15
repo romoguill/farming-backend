@@ -22,11 +22,12 @@ func main() {
 	defer db.Close()
 
 	repo := repository.NewRepository(db.DB)
-	svc := service.NewService(repo)
+	svc := service.NewService(repo.UserRepository)
 
 	router := gin.Default()
-	handler.NewHandler(router, handler.Service{UserService: svc.UserService()})
-	server := server.NewServer(router)
+	handlers := handler.NewHandler(router, svc)
+
+	server := server.NewServer(handlers)
 
 	address := "localhost:3000"
 	server.Start(address)

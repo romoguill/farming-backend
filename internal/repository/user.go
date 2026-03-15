@@ -14,7 +14,7 @@ func NewUserRepository(db *sql.DB) *UserRepository {
 	return &UserRepository{db: db}
 }
 
-func (r *UserRepository) GetUsers() ([]model.User, error) {
+func (r *UserRepository) GetMany() ([]model.User, error) {
 	query := `
 		SELECT id, name, email, password FROM "user";
 	`

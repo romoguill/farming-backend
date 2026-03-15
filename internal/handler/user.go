@@ -1,6 +1,7 @@
 package handler
 
 import (
+	"log"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -8,7 +9,7 @@ import (
 )
 
 type UserService interface {
-	GetUsers() ([]model.User, error)
+	GetAll() ([]model.User, error)
 }
 
 type UserHandler struct {
@@ -16,14 +17,34 @@ type UserHandler struct {
 }
 
 func NewUserHandler(userService UserService) *UserHandler {
-	return &UserHandler{userService: userService}
+	return &UserHandler{
+		userService: userService,
+	}
 }
 
-func (h *UserHandler) GetUsers(c *gin.Context) {
-	users, err := h.userService.GetUsers()
+type UserDTO struct {
+	ID    int64  `json:"id"`
+	Name  string `json:"name"`
+	Email string `json:"email"`
+}
+
+type GetUsersResponse []UserDTO
+
+func (handler *UserHandler) GetUsers(ctx *gin.Context) {
+	users, err := handler.userService.GetAll()
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		log.Printf("error in get users handler: %s", err.Error())
+		ctx.JSON(http.StatusInternalServerError, gin.H{"error": "error getting users"})
 	}
 
-	c.JSON(http.StatusOK, users)
+	var res GetUsersResponse
+	for _, user := range users {
+		res = append(res, UserDTO{
+			ID:    user.ID,
+			Name:  user.Name,
+			Email: user.Email,
+		})
+	}
+
+	ctx.BindJSON(res)
 }
